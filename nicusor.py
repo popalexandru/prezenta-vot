@@ -89,7 +89,7 @@ if __name__ == '__main__':
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("p", prezenta_actuala))
     app.add_handler(CommandHandler("r", rara))
-    app.add_handler(CommandHandler("r", injura))
+    app.add_handler(CommandHandler("f", injura))
 
 
     print("Botul rulează...")
