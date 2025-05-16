@@ -2,8 +2,8 @@ import requests
 from datetime import datetime
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-
-TOKEN = "7814178332:AAEQAfTu-WwrZ190hK4Y0eF8hTBwzR7j3UM"
+import os
+TOKEN = os.environ.get("TOKEN")
 
 def format_number(n):
     if n >= 1_000_000:
