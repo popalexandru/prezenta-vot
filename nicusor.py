@@ -85,11 +85,19 @@ async def injura(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
 
+async def francais(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        await update.message.reply_text(f"Nous volouns aaaa uuaaaa o incetare a focului")
+    except Exception as e:
+        await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
+
 if __name__ == '__main__':
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("p", prezenta_actuala))
     app.add_handler(CommandHandler("r", rara))
     app.add_handler(CommandHandler("f", injura))
+    app.add_handler(CommandHandler("t", francais))
+
 
 
     print("Botul rulează...")
