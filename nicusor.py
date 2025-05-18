@@ -67,8 +67,8 @@ async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         fiirst = candidates[0]
         second = candidates[1]
 
-        name1 = fiirst['shortName']
-        name2 = second['shortName']
+        name1 = fiirst['name']
+        name2 = second['name']
         votes1 = fiirst['votes']
         votes2 = second['votes']
         total = results['countedVotes']
