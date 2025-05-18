@@ -78,6 +78,33 @@ async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
 
+async def trimite_mesaj_periodic(context: ContextTypes.DEFAULT_TYPE):
+    url = 'https://g4media.org/g4/prezidentiale04052025/results/national.json'
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+                      'AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/114.0.0.0 Safari/537.36',
+        'Referer': 'https://prezenta.roaep.ro/ep2025/'
+    }
+
+    r = requests.get(url, headers=headers)
+
+    date = r.json()
+
+    results = date['results']
+    candidates = results['candidates']
+    fiirst = candidates[0]
+    second = candidates[1]
+
+    name1 = fiirst['shortName']
+    name2 = second['shortName']
+    votes1 = fiirst['votes']
+    votes2 = second['votes']
+    total = results['countedVotes']
+
+    await context.bot.send_message(chat_id=CHAT_ID, text='{name1} : {round(votes1 / total,2)}%\n{name2} : {round(votes2 / total, 2)}%')
+
 async def prezenta(application):
     try:
         url = 'https://g4media.org/g4/prezidentiale18052025/presence/hourly-extended.json'
@@ -121,7 +148,8 @@ async def francais(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
 
-if __name__ == '__main__':
+# Pornim botul și programăm JobQueue-ul
+async def main():
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("p", prezenta_actuala))
     app.add_handler(CommandHandler("r", rara))
@@ -129,7 +157,12 @@ if __name__ == '__main__':
     app.add_handler(CommandHandler("t", francais))
     app.add_handler(CommandHandler("w", rezultate))
 
-
+    # Programăm jobul
+    app.job_queue.run_repeating(trimite_mesaj_periodic, interval=600, first=10)  # 600 sec = 10 min
 
     print("Botul rulează...")
-    app.run_polling()
+    await app.run_polling()
+
+if __name__ == '__main__':
+    import asyncio
+    asyncio.run(main())
