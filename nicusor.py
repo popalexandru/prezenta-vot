@@ -49,7 +49,7 @@ async def prezenta_actuala(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        url = 'https://g4media.org/g4/prezidentiale04052025/results/national.json'
+        url = 'https://g4media.org/g4/prezidentiale18052025/results/national.json'
 
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
@@ -73,7 +73,7 @@ async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         votes2 = second['votes']
         total = results['countedVotes']
 
-        await update.message.reply_text(f"{name1} : {round(votes1 / total,2)}%\n{name2} : {round(votes2 / total, 2)}%")
+        await update.message.reply_text(f"{name1} : {round(votes1 * 100 / total,2)}%\n{name2} : {round(votes2 * 100/ total, 2)}%")
 
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
