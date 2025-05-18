@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
 import os
 TOKEN = os.environ.get("TOKEN")
 
@@ -148,6 +148,9 @@ async def francais(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
 
+async def toate_mesajele(update, context):
+    print(f"Am primit un mesaj de la chat_id: {update.effective_chat.id}")
+
 # Pornim botul și programăm JobQueue-ul
 async def main():
     app = ApplicationBuilder().token(TOKEN).build()
@@ -156,6 +159,7 @@ async def main():
     app.add_handler(CommandHandler("f", injura))
     app.add_handler(CommandHandler("t", francais))
     app.add_handler(CommandHandler("w", rezultate))
+    app.add_handler(MessageHandler(filters.ALL, toate_mesajele))
 
     # Programăm jobul
     app.job_queue.run_repeating(trimite_mesaj_periodic, interval=600, first=10)  # 600 sec = 10 min
