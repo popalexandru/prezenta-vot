@@ -47,6 +47,36 @@ async def prezenta_actuala(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
 
+async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        url = 'https://g4media.org/g4/prezidentiale04052025/results/national.json'
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+                          'AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'Chrome/114.0.0.0 Safari/537.36',
+            'Referer': 'https://prezenta.roaep.ro/ep2025/'
+        }
+
+        r = requests.get(url, headers=headers)
+
+        date = r.json()
+
+        results = date['results']
+        candidates = results['candidates']
+        fiirst = candidates[0]
+        second = candidates[1]
+
+        name1 = fiirst['shortName']
+        name2 = second['shortName']
+        votes1 = fiirst['votes']
+        votes2 = fiirst['votes']
+        total = results['countedVotes']
+
+        await update.message.reply_text(f"{name1} : {votes1 / total}%\n{name2} : {votes2 / total}%")
+
+    except Exception as e:
+        await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
 
 async def prezenta(application):
     try:
