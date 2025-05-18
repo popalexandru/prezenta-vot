@@ -73,7 +73,7 @@ async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         votes2 = second['votes']
         total = results['countedVotes']
         totales = results['totalVotes']
-        centralizate = 100 * total / totales
+        centralizate = round(100 * total / totales, 2)
         await update.message.reply_text(f"{name1} : {round(votes1 * 100 / total,2)}%\n{name2} : {round(votes2 * 100/ total, 2)}%\nCentralizate: {centralizate}%")
 
     except Exception as e:
