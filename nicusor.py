@@ -70,10 +70,10 @@ async def rezultate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         name1 = fiirst['shortName']
         name2 = second['shortName']
         votes1 = fiirst['votes']
-        votes2 = fiirst['votes']
+        votes2 = second['votes']
         total = results['countedVotes']
 
-        await update.message.reply_text(f"{name1} : {votes1 / total}%\n{name2} : {votes2 / total}%")
+        await update.message.reply_text(f"{name1} : {round(votes1 / total,2)}%\n{name2} : {round(votes2 / total, 2)}%")
 
     except Exception as e:
         await update.message.reply_text(f"Eroare la preluarea datelor: {e}")
