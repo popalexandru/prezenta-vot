@@ -127,6 +127,7 @@ if __name__ == '__main__':
     app.add_handler(CommandHandler("r", rara))
     app.add_handler(CommandHandler("f", injura))
     app.add_handler(CommandHandler("t", francais))
+    app.add_handler(CommandHandler("w", rezultate))
 
 
 
